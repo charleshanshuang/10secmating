@@ -1,20 +1,18 @@
-
-
 function mainState(game) {
+    var awkwardLevel = 0;
+    var choice1; 
+    var choice2;
+    var choice3;
+    var title;
+    var labelTitle;
+    var awkwardBar;
+    var lockers;
+    var girl;
+    var boy;
+    var timer;
+    var sweat;
 
-var awkwardLevel = 0;
-var choice1; 
-var choice2;
-var choice3;
-var title;
-var labelTitle;
-var awkwardBar;
-var lockers;
-var girl;
-var boy;
-var timer;
-
-    this.create = function() { 
+    this.create = function() {
         game.stage.backgroundColor = "#4488AA";
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -41,11 +39,12 @@ var timer;
         choice3.inputEnabled = true;
         choice3.events.onInputUp.add(approachFemale, this);
         
-        
         awkwardBar = this.game.add.sprite(screenWidth / 2, 50, 'bar');
         awkwardBar.height = 50;
         awkwardBar.anchor.setTo(0.5, 0);
         
+        this.awkwardContainer = this.game.add.sprite(200, 50, 'container');
+        this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
         
         lockers = game.add.tileSprite(0, 350, 800, 100, 'locker');
         lockers.scale.x = 2;
@@ -63,29 +62,54 @@ var timer;
         girl.width = 100;
         girl.height = 160;
         
+        sweat = game.add.emitter(375, 420, 20);
+        sweat.makeParticles('sweat');
+        sweat.gravity = 300;
         
         incrementAwkwardLevel(10);
         timer = game.time.create(false);
         timer.loop(100, function () {
           incrementAwkwardLevel(1);
-          if (awkwardLevel === 100) {
-            awkwardBar.destroy();
-          }
         }, this);
         timer.start();
     };
     
+    function onMaxAwkwardness() {
+        // do stuff
+        console.log("MAX AWKWARDNESS")
+    };
+    
+    function approachFemale() {
+        incrementAwkwardLevel(20);
+    };
 
-function approachFemale() {
-    incrementAwkwardLevel(20);
-}
-
-
-function incrementAwkwardLevel(n) {
-    awkwardLevel += n;
-    var tw = game.add.tween(awkwardBar);
-    tw.to({width: 600 * (awkwardLevel / 100)}, 100, Phaser.Easing.Linear.None);
-    tw.start();
-    awkwardBar.width = 600 * (awkwardLevel / 100);
-}
+    
+    function incrementAwkwardLevel(n) {
+        awkwardLevel += n;
+        if (awkwardLevel >= 100) {
+            awkwardLevel = 100;
+            onMaxAwkwardness();
+        }
+        var tw = game.add.tween(awkwardBar);
+        tw.to({width: 600 * (awkwardLevel / 100)}, 100, Phaser.Easing.Linear.None);
+        tw.start();
+        awkwardBar.width = 600 * (awkwardLevel / 100);
+        
+        
+        if (!sweat.on && awkwardLevel > 30) {
+            sweat.start(false, 1000, 10);
+            sweat.on = true;
+        }
+        
+        if (sweat.on && awkwardLevel > 60) {
+            sweat.maxParticles = 100;
+            sweat.frequency = 1;
+            
+        }
+        
+        if (awkwardLevel === 100) {
+            timer.stop();
+            awkwardBar.destroy();
+        }
+    };
 };
