@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <title>Flappy Bird Clone</title>
     <script type="text/javascript" src="phaser.min.js"></script>
-    <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="preload.js"></script>
 </head>
 
 <body>
@@ -14,6 +14,13 @@
     <div id="orientation"></div>
 
 	<script type="text/javascript" src="main.js"></script>
+  <script>var screenWidth = 800;
+var screenHeight = 600;
+var game = new Phaser.Game(screenWidth, screenHeight, Phaser.AUTO, 'gameDiv');
+game.state.add("Preload", Preload);
+game.state.add('main', mainState);  
+game.state.start('Preload'); 
+  </script>
 </body>
 
 </html>
