@@ -11,6 +11,7 @@ function mainState(game) {
     var boy;
     var timer;
     var sweat;
+    var playing;
 
     this.create = function() {
         game.stage.backgroundColor = "#4488AA";
@@ -82,10 +83,14 @@ function mainState(game) {
         game.world.forEach(function (spr) {
             spr.smoothed = false;
         }, this);
+        
+        playing = true;
     };
     
     function approachFemale() {
-        incrementAwkwardLevel(20);
+        if (playing){
+            incrementAwkwardLevel(20);
+        }
     };
 
     
@@ -114,7 +119,6 @@ function mainState(game) {
         
         if (awkwardLevel === 100) {
             timer.stop();
-            awkwardBar.destroy();
         }
     };
     
@@ -126,6 +130,8 @@ function mainState(game) {
     };
     
     function playPayoff() {
+        playing = false;
+        
         boy.animations.play('run');
         boy.scale.x *= -1;
         sweat.destroy();
@@ -137,6 +143,7 @@ function mainState(game) {
     };
     
     function onCompletePayoff() {
+        awkwardBar.destroy();
         game.state.start("bees");
     }
 };

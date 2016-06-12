@@ -48,12 +48,9 @@ function beesState(game) {
         hand.width = 75;
         hand.height = 200;
         
-        girl = game.add.sprite(550, 200, 'girl_face');
-        girl.animations.add('bob', [0,1,2], 5);
-        girl.animations.add('stand', [0], 5);
-        girl.animations.play('bob');
-        girl.width = 300;
-        girl.height = 400;
+        girl = game.add.sprite(500, 200, 'girl_face');
+        girl.width = 400;
+        girl.height = 500;
         
         bumps = game.add.group();
         
@@ -64,7 +61,7 @@ function beesState(game) {
         bees.height = 300;  
         bees.gravity = 5;
         bees.start(false, 3000, 100);
-        bees.setScale(5, 10, 5, 10);
+        bees.setScale(1, 2, 1, 2);
         bees.setRotation(0,0);
         
         bees.on = true;
@@ -89,6 +86,8 @@ function beesState(game) {
         hand.y = 75;
         hand.body.width = 50;
         hand.body.height = 50;
+        
+        girl.body.setSize(400, 400, 100, 0);
         
         game.world.forEach(function (spr) {
             spr.smoothed = false;
@@ -156,7 +155,13 @@ function beesState(game) {
     }
     
     function onBeesGirlOverlap(girl, bee) {
-        var bump = bumps.create(bee.x, bee.y, 'bump');
+        var bump = bumps.create(bee.x - girl.x, bee.y - girl.y, 'bump');
+        bump.scale.x = 0.1;
+        bump.scale.y = 0.1;
+        bump.x *= bump.scale.x;
+        bump.y *= bump.scale.y;
+        
+        girl.addChild(bump);
         bee.destroy();
         incrementAwkwardLevel(2);
     }
