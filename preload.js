@@ -20,6 +20,8 @@ function Preload(game) {
         game.load.spritesheet('fast_runner', 'assets/visual/fast_runner.png', 50, 80);
         game.load.spritesheet('girl', 'assets/visual/girl.png', 50, 80);
         game.load.spritesheet('push_button', 'assets/visual/push_button.png', 100, 50);
+      
+        game.load.audio('grunt', 'assets/audio/grunt.wav');
   };
   this.create = function() {
     game.state.start("main");

@@ -81,7 +81,8 @@ function liftingState(game) {
         pushButton.play("flash");
         pushButton.inputEnabled = true;
         pushButton.events.onInputUp.add(function () {
-                barbell.body.velocity.y = -20;
+            barbell.body.velocity.y = -20;
+            game.sound.play("grunt");
         }, this);
         buttonUpTween = game.add.tween(pushButton);
         buttonUpTween.to({y: 200}, 8000);
@@ -118,11 +119,10 @@ function liftingState(game) {
         var awkwardTween = game.add.tween(awkwardBar);
         awkwardTween.to({width: 600}, 500);
         awkwardTween.start();
+        awkwardTween.onComplete.add(function () {
+            game.state.start("hifive");
+        }, this);
         barStopper.body.y = screenHeight;
         barbell.body.gravity.y = 500;
     };
-    
-    function onPayoffComplete() {
-        game.state.start('hifive');
-    }
 }
