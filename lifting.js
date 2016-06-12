@@ -4,14 +4,18 @@ function liftingState(game) {
     var lifterBody = null;
     var gruntFace = null;
     var barbell = null;
+    var coolBarbell = null;
     var button = null;
     var awkwardBar = null;
     var barStopper = null;
     var pushButton = null;
     var buttonUpTween = null;
+    var girl = null;
+    var girlTween = null;
     var awkwardLevel = 30;
     var initialHeight = 0;
     var timesUp = false;
+    var coolLoop = null;
     this.create = function () {
         game.stage.backgroundColor = "#4488AA";
 
@@ -39,26 +43,41 @@ function liftingState(game) {
         game.world.sendToBack(rightArm);
         game.world.sendToBack(barbell);
         initialHeight = barbell.y;
+        
+        coolBarbell = game.add.sprite(-220, 350, 'barbell');
+        coolBarbell.scale.setTo(2, 2);
+        coolLoop = game.add.tween(coolBarbell);
+        coolLoop.to({y: 420}, 800, Phaser.Easing.Sinusoidal.InOut, true, 0, -1, true);
       
         barStopper = game.add.sprite(lifterBody.x, lifterBody.y + 100, 'sweat');
         barStopper.visible = false;
         game.physics.arcade.enable(barStopper);
         barStopper.body.immovable = true;
         
-        pushButton = game.add.sprite(screenWidth / 2, screenHeight / 2 + 100, 'button');
+        pushButton = game.add.sprite(screenWidth / 2, screenHeight / 2 + 100, 'push_button');
         pushButton.anchor.setTo(0.5, 0.5);
+        pushButton.animations.add('flash', [0, 1], 4, true);
+        pushButton.play();
         pushButton.inputEnabled = true;
         pushButton.events.onInputUp.add(function () {
                 barbell.body.velocity.y = -20;
         }, this);
         buttonUpTween = game.add.tween(pushButton);
-        buttonUpTween.to({y: 200}, 5000);
+        buttonUpTween.to({y: 200}, 8000);
         buttonUpTween.onComplete.add(wrapUp, this);
         buttonUpTween.start();
+        
+        girl = game.add.sprite(screenWidth + 150, 400, 'girl');
+        girl.scale.setTo(2, 2);
+        girlTween = game.add.tween(girl);
+        girlTween.to({x: screenWidth - 180}, 500, Phaser.Easing.Linear.None, true, 7500);
+        
         
         awkwardBar = this.game.add.sprite(screenWidth / 2, 50, 'bar');
         awkwardBar.height = 50;
         awkwardBar.anchor.setTo(0.5, 0);
+        
+        this.game.add.text(game.world.centerX - 125, 10, 'AWKWARD LEVEL', { font: "30px Comic Sans MS", fill: "#000000" });
         
         this.awkwardContainer = this.game.add.sprite(200, 50, 'container');
         this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
