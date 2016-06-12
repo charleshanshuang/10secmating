@@ -23,6 +23,7 @@ function Preload(game) {
         game.load.spritesheet('push_button', 'assets/visual/push_button.png', 100, 50);
         game.load.spritesheet('main_menu_background', 'assets/visual/main_menu_background.png', 200, 200);
       
+        game.load.image('poster', 'assets/visual/cat_poster.png');  
         game.load.audio('grunt', 'assets/audio/grunt.wav');
         game.load.audio('buzz', 'assets/audio/buzz.wav');
         game.load.audio('ow', 'assets/audio/ow.wav');

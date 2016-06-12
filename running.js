@@ -97,6 +97,9 @@ function runningState(game) {
     function wrapUp() {
         var buttonAwayTween = game.add.tween(pushButton);
         buttonAwayTween.to({x: screenWidth + 100}, 700);
+        buttonAwayTween.onComplete.add(function () {
+            game.state.start("end");
+        }, this);
         buttonAwayTween.start();
         var awkwardTween = game.add.tween(awkwardBar);
         awkwardTween.to({width: 600}, 700);
