@@ -159,7 +159,7 @@ function beesState(game) {
         bump.scale.x = 0.1;
         bump.scale.y = 0.1;
         bump.x *= bump.scale.x;
-        bump.y *= bump.scale.y;
+        bump.y *= bump.scale.y * 0.5;
         
         girl.addChild(bump);
         bee.destroy();
