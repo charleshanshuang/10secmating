@@ -21,6 +21,7 @@ function Preload(game) {
         game.load.spritesheet('girl', 'assets/visual/girl.png', 50, 80);
         game.load.spritesheet('push_button', 'assets/visual/push_button.png', 100, 50);
       
+        game.load.image('poster', 'assets/visual/cat_poster.png');  
         game.load.audio('grunt', 'assets/audio/grunt.wav');
   };
   this.create = function() {

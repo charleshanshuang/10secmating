@@ -89,7 +89,7 @@ function mainState(game) {
     
     function approachFemale(choice) {
         if (playing){
-            incrementAwkwardLevel(20);
+            incrementAwkwardLevel(12);
             choice.destroy();
         }
     };
