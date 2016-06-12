@@ -1,4 +1,4 @@
-function mainState(game) {
+function beesState(game) {
     var awkwardLevel = 0;
     var choice1; 
     var choice2;
@@ -6,9 +6,10 @@ function mainState(game) {
     var title;
     var labelTitle;
     var awkwardBar;
-    var lockers;
     var girl;
-    var boy;
+    var hand;
+    var flowers;
+    var bees;
     var timer;
     var sweat;
 
@@ -17,7 +18,7 @@ function mainState(game) {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        title = "SAY A LINE";
+        title = "WHAT'S WITH THESE FLOWERS, CLYDE";
         
         labelTitle = this.game.add.text(screenWidth / 2, 20, title, { font: "30px Arial", fill: "#ffffff" });
         labelTitle.anchor.set(0.5);
@@ -25,59 +26,69 @@ function mainState(game) {
         labelTitle.strokeThickness = 6;
         labelTitle.shadowColor = "#000009";
         labelTitle.shadowOffsetX = 5;
-        labelTitle.shadowOffsetY = 5;    
-      
-        choice1 = this.game.add.text(game.world.centerX - 95, 50, '...!', { font: "30px Arial", fill: "#ffffff" });
-        choice1.inputEnabled = true;
-        choice1.events.onInputUp.add(approachFemale, this);
+        labelTitle.shadowOffsetY = 5;      
         
-        choice2 = this.game.add.text(game.world.centerX - 95, 100, 'Um...', { font: "30px Arial", fill: "#ffffff" });
-        choice2.inputEnabled = true;
-        choice2.events.onInputUp.add(approachFemale, this);
+        // Awkward Bar
+        awkwardTitle = this.game.add.text(game.world.centerX - 125, 60, 'AWKWARD LEVEL', { font: "30px Comic Sans MS", fill: "#000000" });
         
-        choice3 = this.game.add.text(game.world.centerX - 95, 150, 'Eh...', { font: "30px Arial", fill: "#ffffff" });
-        choice3.inputEnabled = true;
-        choice3.events.onInputUp.add(approachFemale, this);
-        
-        
-        awkwardTitle = this.game.add.text(game.world.centerX - 125, 210, 'AWKWARD LEVEL', { font: "30px Comic Sans MS", fill: "#000000" });
-        
-        awkwardBar = this.game.add.sprite(screenWidth / 2, 250, 'bar');
+        awkwardBar = this.game.add.sprite(screenWidth / 2, 100, 'bar');
         awkwardBar.height = 50;
         awkwardBar.anchor.setTo(0.5, 0);
         
-        this.awkwardContainer = this.game.add.sprite(200, 250, 'container');
+        this.awkwardContainer = this.game.add.sprite(200, 100, 'container');
         this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
         
-        lockers = game.add.tileSprite(0, 350, 800, 100, 'locker');
-        lockers.scale.x = 2;
-        lockers.scale.y = 2;
+        flowers = game.add.sprite(100, 200, 'flowers');
+        flowers.width = 100;
+        flowers.height = 400;
         
-        boy = game.add.sprite(350, 400, 'boy');
-        boy.animations.add('stand', [0], 5);
-        boy.animations.add('bob', [0,1,2], 5, true);
-        boy.animations.add('run', [3,4], 5, true);
-        boy.animations.play('bob');
-        boy.width = 100;
-        boy.height = 160;
         
-        girl = game.add.sprite(500, 400, 'girl');
+        hand = game.add.sprite(350, 300, 'hand');
+        hand.anchor.y = 0.5;
+        hand.width = 75;
+        hand.height = 200;
+        
+        girl = game.add.sprite(550, 200, 'girl_face');
         girl.animations.add('bob', [0,1,2], 5);
         girl.animations.add('stand', [0], 5);
         girl.animations.play('bob');
-        girl.width = 100;
-        girl.height = 160;
+        girl.width = 300;
+        girl.height = 400;
+        
+        bumps = game.add.group();
+        
+        bees = game.add.emitter(100, 350, 200);
+        bees.makeParticles('bee');
+        bees.setXSpeed(200, 300);
+        bees.setYSpeed(-50, 50);
+        bees.height = 300;  
+        bees.gravity = 5;
+        bees.start(false, 3000, 100);
+        bees.setScale(5, 10, 5, 10);
+        bees.setRotation(0,0);
+        
+        bees.on = true;
         
         sweat = game.add.emitter(375, 420, 20);
+        //hand.addChild(sweat);
         sweat.makeParticles('sweat');
         sweat.gravity = 300;
         
         incrementAwkwardLevel(10);
         timer = game.time.create(false);
-        timer.loop(100, function () {
+        timer.loop(200, function () {
           incrementAwkwardLevel(1);
         }, this);
         timer.start();
+        
+        game.physics.enable( [ bees, girl, hand ], Phaser.Physics.ARCADE);
+        
+        girl.body.immovable = true;
+        hand.body.immovable = true;
+        
+        hand.y = 75;
+        hand.body.width = 50;
+        hand.body.height = 50;
     };
     
     function approachFemale() {
@@ -122,17 +133,32 @@ function mainState(game) {
     };
     
     function playPayoff() {
-        boy.animations.play('run');
-        boy.scale.x *= -1;
-        sweat.destroy();
-        girl.play('stand');
-        var tw = game.add.tween(boy);
-        tw.to({x: -200}, 2000, Phaser.Easing.Linear.None);
-        tw.onComplete.add(onCompletePayoff);
+        var tw = game.add.tween(girl);
+        tw.to({x: 1000}, 2000, Phaser.Easing.Linear.None);
         tw.start();
+        
+        bumps.destroy();
+        sweat.destroy();
+        bees.destroy();
     };
     
-    function onCompletePayoff() {
-        game.state.start("bees");
+    this.update = function() {
+        updateHand();
+        game.physics.arcade.collide(bees, girl, null, onBeesGirlOverlap, this);
+        game.physics.arcade.collide(bees, hand, null, onBeesHandOverlap, this);
+    }
+    
+    function onBeesGirlOverlap(girl, bee) {
+        var bump = bumps.create(bee.x, bee.y, 'bump');
+        bee.destroy();
+        incrementAwkwardLevel(2);
+    }
+    
+    function onBeesHandOverlap(hand, bee) {
+        bee.destroy();
+    }
+    
+    function updateHand() {
+        hand.y = game.input.mousePointer.y;
     }
 };
