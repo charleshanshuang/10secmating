@@ -108,13 +108,9 @@ function liftingState(game) {
         awkwardTween.to({width: 600}, 500);
         awkwardTween.start();
         awkwardTween.onComplete.add(function () {
-            game.state.start("running");
+            game.state.start("hifive");
         }, this);
         barStopper.body.y = screenHeight;
         barbell.body.gravity.y = 500;
     };
-    
-    function onPayoffComplete() {
-        game.state.start('hifive');
-    }
 }
