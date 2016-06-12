@@ -114,7 +114,6 @@ function liftingState(game) {
         timesUp = true;
         var buttonAwayTween = game.add.tween(pushButton);
         buttonAwayTween.to({x: screenWidth + 100}, 500);
-        buttonAwayTween.onComplete.add(onPayoffComplete);
         buttonAwayTween.start();
         var awkwardTween = game.add.tween(awkwardBar);
         awkwardTween.to({width: 600}, 500);
