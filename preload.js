@@ -26,6 +26,8 @@ function Preload(game) {
         game.load.image('poster', 'assets/visual/cat_poster.png');  
         game.load.audio('grunt', 'assets/audio/grunt.wav');
         game.load.audio('groan', 'assets/audio/groan.mp3');
+        game.load.audio('buzz', 'assets/audio/buzz.wav');
+        game.load.audio('ow', 'assets/audio/ow.wav');
   };
   this.create = function() {
     game.state.start("menu");
