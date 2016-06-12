@@ -79,14 +79,15 @@ function runningState(game) {
             boy.body.velocity.x += 8;
         }
         boy.frame = (boy.frame === 3) ? 4 : 3;
+        game.sound.play("grunt");
     }
     
     function wrapUp() {
         var buttonAwayTween = game.add.tween(pushButton);
-        buttonAwayTween.to({x: screenWidth + 100}, 500);
+        buttonAwayTween.to({x: screenWidth + 100}, 700);
         buttonAwayTween.start();
         var awkwardTween = game.add.tween(awkwardBar);
-        awkwardTween.to({width: 600}, 500);
+        awkwardTween.to({width: 600}, 700);
         awkwardTween.start();
         var fallingTween = game.add.tween(boy);
         fallingTween.to({rotation: Math.PI / 2, y: boy.y + 100, x: boy.x + 200}, 500, Phaser.Easing.Quadratic.Out);
