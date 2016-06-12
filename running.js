@@ -4,12 +4,14 @@ function runningState(game) {
     var boy = null;
     var fastRunner = null;
     var runTween = null;
-    var awkwardLevel = 0;
+    var awkwardLevel = 10;
+    var girl = null;
+    var girlTween = null;
     this.create = function () {
         game.stage.backgroundColor = "#4488AA";
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
-        pushButton = game.add.sprite(screenWidth / 2, screenHeight / 2 + 100, 'push_button');
+        pushButton = game.add.sprite(screenWidth / 2, screenHeight / 2 + 20, 'push_button');
         pushButton.anchor.setTo(0.5, 0.5);
         pushButton.animations.add('flash', [0, 1], 4, true);
         pushButton.play("flash");
@@ -25,6 +27,7 @@ function runningState(game) {
         fastRunner.y -= fastRunner.height;
         fastRunner.animations.add("run", [0, 1], 5, true);
         fastRunner.play("run");
+        game.physics.arcade.enable(fastRunner);
         runTween = game.add.tween(fastRunner);
         runTween.to({x: screenWidth}, 2000, Phaser.Easing.Linear.None, true, 0, -1);
         
@@ -35,12 +38,35 @@ function runningState(game) {
         boy.frame = 3;
         game.world.sendToBack(boy);
         
+        awkwardBar = this.game.add.sprite(screenWidth / 2, 50, 'bar');
+        awkwardBar.height = 50;
+        awkwardBar.anchor.setTo(0.5, 0);
+        
+        this.game.add.text(game.world.centerX - 125, 10, 'AWKWARD LEVEL', { font: "30px Comic Sans MS", fill: "#000000" });
+        
+        this.awkwardContainer = this.game.add.sprite(200, 50, 'container');
+        this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
+        
+        girl = game.add.sprite(screenWidth + 150, 400, 'girl');
+        girl.scale.setTo(2, 2);
+        girlTween = game.add.tween(girl);
+        girlTween.to({x: screenWidth - 180}, 500, Phaser.Easing.Linear.None, true, 7500);
+        
+        var track = game.add.tileSprite(0, screenHeight - 200, screenWidth, 200, 'track');
+        game.world.sendToBack(track);
+        
         game.world.forEach(function (spr) {
             spr.smoothed = false;
         }, this);
     };
     
     this.update = function () {
+        game.physics.arcade.overlap(boy, fastRunner, function (boySprite, runnerSprite) {
+            awkwardLevel += .2;
+        }, null, this);
+        
+        awkwardBar.width = 600 * (awkwardLevel / 100);
+        
         if (boy.body.velocity.x > 0) {
             boy.body.velocity.x -= .7;
         } else {
@@ -56,6 +82,14 @@ function runningState(game) {
     }
     
     function wrapUp() {
-        console.log('wrapUp');
+        var buttonAwayTween = game.add.tween(pushButton);
+        buttonAwayTween.to({x: screenWidth + 100}, 500);
+        buttonAwayTween.start();
+        var awkwardTween = game.add.tween(awkwardBar);
+        awkwardTween.to({width: 600}, 500);
+        awkwardTween.start();
+        var fallingTween = game.add.tween(boy);
+        fallingTween.to({rotation: Math.PI / 2, y: boy.y + 100, x: boy.x + 200}, 500, Phaser.Easing.Quadratic.Out);
+        fallingTween.start();
     }
 }
