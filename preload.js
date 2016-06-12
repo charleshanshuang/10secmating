@@ -13,12 +13,13 @@ function Preload(game) {
         game.load.image('bee', 'assets/visual/bee.png');
         game.load.image('bump', 'assets/visual/bump.png');  
         game.load.image('flowers', 'assets/visual/flowers.png');  
+        game.load.spritesheet('girl_face', 'assets/visual/girl_face.png', 28, 22);
+        game.load.spritesheet('boy_face', 'assets/visual/boy_face.png', 28, 22);
         game.load.spritesheet('boy', 'assets/visual/boy.png', 50, 80);
         game.load.spritesheet('girl', 'assets/visual/girl.png', 50, 80);
-        game.load.spritesheet('girl_face', 'assets/visual/girl_face.png');
         game.load.spritesheet('push_button', 'assets/visual/push_button.png', 100, 50);
   };
   this.create = function() {
-    game.state.start("running");
+    game.state.start("main");
   };
 }
