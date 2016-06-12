@@ -5,6 +5,7 @@ function liftingState(game) {
     var gruntFace = null;
     var barbell = null;
     var coolBarbell = null;
+    var labelTitle = null;
     var button = null;
     var awkwardBar = null;
     var barStopper = null;
@@ -20,6 +21,26 @@ function liftingState(game) {
         game.stage.backgroundColor = "#4488AA";
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+        title = "GETTIN SWOLE";
+        
+        labelTitle = this.game.add.text(screenWidth / 2, 20, title, { font: "30px Arial", fill: "#ffffff" });
+        labelTitle.anchor.set(0.5);
+        labelTitle.stroke = "#000000";
+        labelTitle.strokeThickness = 6;
+        labelTitle.shadowColor = "#000009";
+        labelTitle.shadowOffsetX = 5;
+        labelTitle.shadowOffsetY = 5;      
+        
+        awkwardTitle = this.game.add.text(game.world.centerX - 125, 60, 'AWKWARD LEVEL', { font: "30px Comic Sans MS", fill: "#000000" });
+        
+        awkwardBar = this.game.add.sprite(screenWidth / 2, 100, 'bar');
+        awkwardBar.height = 50;
+        awkwardBar.anchor.setTo(0.5, 0);
+        
+        this.awkwardContainer = this.game.add.sprite(200, 100, 'container');
+        this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
+        
       
         lifterBody = game.add.sprite(screenWidth / 2, screenHeight - 20, 'lifter_body');
         lifterBody.anchor.setTo(0.5, 0);
@@ -73,15 +94,6 @@ function liftingState(game) {
         girlTween = game.add.tween(girl);
         girlTween.to({x: screenWidth - 180}, 500, Phaser.Easing.Linear.None, true, 7500);
         
-        
-        awkwardBar = this.game.add.sprite(screenWidth / 2, 50, 'bar');
-        awkwardBar.height = 50;
-        awkwardBar.anchor.setTo(0.5, 0);
-        
-        this.game.add.text(game.world.centerX - 125, 10, 'AWKWARD LEVEL', { font: "30px Comic Sans MS", fill: "#000000" });
-        
-        this.awkwardContainer = this.game.add.sprite(200, 50, 'container');
-        this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
         game.world.forEach(function (spr) {
             spr.smoothed = false;
         }, this);
