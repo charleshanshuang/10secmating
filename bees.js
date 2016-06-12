@@ -114,7 +114,6 @@ function beesState(game) {
         tw.start();
         awkwardBar.width = 600 * (awkwardLevel / 100);
         
-        
         if (!sweat.on && awkwardLevel > 30) {
             sweat.start(false, 1000, 10);
             sweat.on = true;
@@ -139,13 +138,13 @@ function beesState(game) {
         tw.to({x: 1000}, 2000, Phaser.Easing.Linear.None);
         tw.onComplete.add(function () {
             game.state.start('lifting');
+            awkwardBar.destroy();
         }, this);
         tw.start();
         
         bumps.destroy();
         sweat.destroy();
         bees.destroy();
-        awkwardBar.destroy();
     };
     
     this.update = function() {

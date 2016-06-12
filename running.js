@@ -7,9 +7,30 @@ function runningState(game) {
     var awkwardLevel = 10;
     var girl = null;
     var girlTween = null;
+    var labelTitle = null;
     this.create = function () {
         game.stage.backgroundColor = "#4488AA";
         game.physics.startSystem(Phaser.Physics.ARCADE);
+        
+        title = "PUMP IT UP CLYDE";
+        
+        labelTitle = this.game.add.text(screenWidth / 2, 20, title, { font: "30px Arial", fill: "#ffffff" });
+        labelTitle.anchor.set(0.5);
+        labelTitle.stroke = "#000000";
+        labelTitle.strokeThickness = 6;
+        labelTitle.shadowColor = "#000009";
+        labelTitle.shadowOffsetX = 5;
+        labelTitle.shadowOffsetY = 5;
+        
+        this.game.add.text(game.world.centerX - 125, 60, 'AWKWARD LEVEL', { font: "30px Comic Sans MS", fill: "#000000" });
+        
+        awkwardBar = this.game.add.sprite(screenWidth / 2, 100, 'bar');
+        awkwardBar.height = 50;
+        awkwardBar.anchor.setTo(0.5, 0);
+        
+        this.awkwardContainer = this.game.add.sprite(200, 100, 'container');
+        this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
+        
         
         pushButton = game.add.sprite(screenWidth / 2, screenHeight / 2 + 20, 'push_button');
         pushButton.anchor.setTo(0.5, 0.5);
@@ -37,15 +58,6 @@ function runningState(game) {
         game.physics.arcade.enable(boy);
         boy.frame = 3;
         game.world.sendToBack(boy);
-        
-        awkwardBar = this.game.add.sprite(screenWidth / 2, 50, 'bar');
-        awkwardBar.height = 50;
-        awkwardBar.anchor.setTo(0.5, 0);
-        
-        this.game.add.text(game.world.centerX - 125, 10, 'AWKWARD LEVEL', { font: "30px Comic Sans MS", fill: "#000000" });
-        
-        this.awkwardContainer = this.game.add.sprite(200, 50, 'container');
-        this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
         
         girl = game.add.sprite(screenWidth + 150, 400, 'girl');
         girl.scale.setTo(2, 2);
