@@ -15,12 +15,14 @@
 
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="bees.js"></script>
+	<script type="text/javascript" src="lifting.js"></script>
   <script>var screenWidth = 800;
 var screenHeight = 600;
 var game = new Phaser.Game(screenWidth, screenHeight, Phaser.AUTO, 'gameDiv');
 game.state.add("Preload", Preload);
 game.state.add('main', mainState);  
 game.state.add('bees', beesState);  
+game.state.add('lifting', liftingState);
 game.state.start('Preload'); 
   </script>
 </body>

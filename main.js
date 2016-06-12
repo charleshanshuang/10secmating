@@ -78,6 +78,10 @@ function mainState(game) {
           incrementAwkwardLevel(1);
         }, this);
         timer.start();
+        
+        game.world.forEach(function (spr) {
+            spr.smoothed = false;
+        }, this);
     };
     
     function approachFemale() {

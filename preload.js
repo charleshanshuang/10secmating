@@ -1,7 +1,12 @@
 function Preload(game) {
   this.preload = function () {
         game.load.image('bar', 'assets/visual/awkward_bar.png');
+        game.load.image('barbell', 'assets/visual/barbell.png');
         game.load.image('container', 'assets/visual/awkward_container.png');
+        game.load.image('grunt_face', 'assets/visual/grunt_face.png');
+        game.load.image('lame_barbell', 'assets/visual/lame_barbell.png');
+        game.load.image('lifter_arm', 'assets/visual/lifter_arm.png');
+        game.load.image('lifter_body', 'assets/visual/lifter_body.png');
         game.load.image('locker', 'assets/visual/locker.png');
         game.load.image('sweat', 'assets/visual/sweat.png');
         game.load.spritesheet('boy', 'assets/visual/boy.png', 50, 80);

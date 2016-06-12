@@ -89,6 +89,10 @@ function beesState(game) {
         hand.y = 75;
         hand.body.width = 50;
         hand.body.height = 50;
+        
+        game.world.forEach(function (spr) {
+            spr.smoothed = false;
+        }, this);
     };
     
     function approachFemale() {
@@ -135,6 +139,9 @@ function beesState(game) {
     function playPayoff() {
         var tw = game.add.tween(girl);
         tw.to({x: 1000}, 2000, Phaser.Easing.Linear.None);
+        tw.onComplete.add(function () {
+            game.state.start('lifting');
+        }, this);
         tw.start();
         
         bumps.destroy();
