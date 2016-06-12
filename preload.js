@@ -4,6 +4,7 @@ function Preload(game) {
         game.load.image('barbell', 'assets/visual/barbell.png');
         game.load.image('container', 'assets/visual/awkward_container.png');
         game.load.image('grunt_face', 'assets/visual/grunt_face.png');
+        game.load.image('hand', 'assets/visual/hand.png');
         game.load.image('lame_barbell', 'assets/visual/lame_barbell.png');
         game.load.image('lifter_arm', 'assets/visual/lifter_arm.png');
         game.load.image('lifter_body', 'assets/visual/lifter_body.png');
@@ -18,6 +19,6 @@ function Preload(game) {
         game.load.spritesheet('push_button', 'assets/visual/push_button.png', 100, 50);
   };
   this.create = function() {
-    game.state.start("main");
+    game.state.start("running");
   };
 }
