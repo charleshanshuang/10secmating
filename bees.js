@@ -163,6 +163,7 @@ function beesState(game) {
         girl.addChild(bump);
         bee.destroy();
         incrementAwkwardLevel(2);
+        game.sound.play('ow');
     }
     
     function onBeesHandOverlap(hand, bee) {

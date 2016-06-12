@@ -24,6 +24,8 @@ function Preload(game) {
         game.load.spritesheet('main_menu_background', 'assets/visual/main_menu_background.png', 200, 200);
       
         game.load.audio('grunt', 'assets/audio/grunt.wav');
+        game.load.audio('buzz', 'assets/audio/buzz.wav');
+        game.load.audio('ow', 'assets/audio/ow.wav');
   };
   this.create = function() {
     game.state.start("menu");

@@ -22,6 +22,8 @@ function liftingState(game) {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
         
+        game.sound.stopAll();
+        
         title = "GETTIN SWOLE";
         
         labelTitle = this.game.add.text(screenWidth / 2, 20, title, { font: "30px Arial", fill: "#ffffff" });
