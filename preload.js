@@ -12,6 +12,7 @@ function Preload(game) {
         game.load.spritesheet('boy', 'assets/visual/boy.png', 50, 80);
         game.load.spritesheet('girl', 'assets/visual/girl.png', 50, 80);
         game.load.spritesheet('bee', 'assets/visual/bee.png');
+        game.load.spritesheet('push_button', 'assets/visual/push_button.png', 100, 50);
   };
   this.create = function() {
     game.state.start("main");
