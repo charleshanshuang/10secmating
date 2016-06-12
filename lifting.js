@@ -102,6 +102,7 @@ function liftingState(game) {
         timesUp = true;
         var buttonAwayTween = game.add.tween(pushButton);
         buttonAwayTween.to({x: screenWidth + 100}, 500);
+        buttonAwayTween.onComplete.add(onPayoffComplete);
         buttonAwayTween.start();
         var awkwardTween = game.add.tween(awkwardBar);
         awkwardTween.to({width: 600}, 500);
@@ -111,5 +112,9 @@ function liftingState(game) {
         }, this);
         barStopper.body.y = screenHeight;
         barbell.body.gravity.y = 500;
+    };
+    
+    function onPayoffComplete() {
+        game.state.start('hifive');
     }
 }

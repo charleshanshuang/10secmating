@@ -1,24 +1,22 @@
-function beesState(game) {
+function hifiveState(game) {
     var awkwardLevel = 0;
-    var choice1; 
-    var choice2;
-    var choice3;
     var title;
     var labelTitle;
     var awkwardBar;
     var girl;
-    var hand;
-    var flowers;
-    var bees;
+    var girlhand;
+    var girlTween;
+    var boy;
+    var boyhand;
     var timer;
-    var sweat;
+    var playing;
 
     this.create = function() {
         game.stage.backgroundColor = "#4488AA";
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        title = "WHAT'S WITH THESE FLOWERS, CLYDE";
+        title = "LET'S HI FIVE AMELIA";
         
         labelTitle = this.game.add.text(screenWidth / 2, 20, title, { font: "30px Arial", fill: "#ffffff" });
         labelTitle.anchor.set(0.5);
@@ -38,75 +36,56 @@ function beesState(game) {
         this.awkwardContainer = this.game.add.sprite(200, 100, 'container');
         this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
         
-        flowers = game.add.sprite(100, 200, 'flowers');
-        flowers.width = 100;
-        flowers.height = 400;
+        girl = game.add.sprite(600, 300, 'girl_face');
+        girl.animations.add('face', [0]);
+        girl.animations.add('ouch', [1]);
+        girl.animations.play('face');
+        girl.width = 200;
+        girl.height = 300;
         
+        boyhand = game.add.sprite(350, 300, 'hand');
+        boyhand.anchor.y = 0.5;
+        boyhand.width = 75;
+        boyhand.height = 200;
+        boyhand.scale.x *= -1;
         
-        hand = game.add.sprite(350, 300, 'hand');
-        hand.anchor.y = 0.5;
-        hand.width = 75;
-        hand.height = 200;
+        girlhand = game.add.sprite(500, 400, 'hand');
+        girlhand.anchor.y = 0.5;
+        girlhand.width = 75;
+        girlhand.height = 200;
+        
+        girlTween = game.add.tween(girlhand);
+        girlTween.to({x: 400}, 800, Phaser.Easing.Sinusoidal.InOut, true, 0, -1, true);
+        
+        boy = game.add.sprite(20, 300, 'boy_face');
+        boy.animations.add('face', [0]);
+        boy.animations.add('oh', [1]);
+        boy.animations.play('face');
+        boy.width = 200;
+        boy.height = 300;
         
         sweat = game.add.emitter(0, 0, 20);
         sweat.makeParticles('sweat');
         sweat.gravity = 300;
         
-        hand.addChild(sweat);
-        
-        girl = game.add.sprite(500, 200, 'girl_face');
-        girl.animations.add('face', [0]);
-        girl.animations.play('face');
-        girl.width = 400;
-        girl.height = 500;
-        
-        bumps = game.add.group();
-        
-        bees = game.add.emitter(100, 350, 200);
-        bees.makeParticles('bee');
-        bees.setXSpeed(200, 300);
-        bees.setYSpeed(-50, 50);
-        bees.height = 300;  
-        bees.gravity = 5;
-        bees.start(false, 3000, 100);
-        bees.setScale(1, 2, 1, 2);
-        bees.setRotation(0,0);
-        
-        bees.on = true;
-        
         incrementAwkwardLevel(10);
         timer = game.time.create(false);
-        timer.loop(200, function () {
+        timer.loop(100, function () {
           incrementAwkwardLevel(1);
         }, this);
         timer.start();
         
-        game.physics.enable( [ bees, girl, hand ], Phaser.Physics.ARCADE);
-        
-        girl.body.immovable = true;
-        hand.body.immovable = true;
-        
-        hand.y = 75;
-        hand.body.width = 50;
-        hand.body.height = 50;
-        
-        girl.body.setSize(400, 400, 100, 0);
+        playing = true;
         
         game.world.forEach(function (spr) {
             spr.smoothed = false;
         }, this);
     };
     
-    function approachFemale() {
-        incrementAwkwardLevel(20);
-    };
-
-    
     function incrementAwkwardLevel(n) {
         awkwardLevel += n;
         if (awkwardLevel >= 100) {
             awkwardLevel = 100;
-            timer.stop();
             onMaxAwkwardness();
         }
         var tw = game.add.tween(awkwardBar);
@@ -125,6 +104,10 @@ function beesState(game) {
             sweat.frequency = 1;
             
         }
+        
+        if (awkwardLevel === 100) {
+            timer.stop();
+        }
     };
     
     
@@ -135,42 +118,39 @@ function beesState(game) {
     };
     
     function playPayoff() {
+        playing = false;
+        playHitFace();
+    };
+    
+    function playHitFace() {
+        var tw = game.add.tween(boyhand);
+        tw.to({x: 600, y: 350}, 1000, Phaser.Easing.Cubic.None);
+        tw.onComplete.add(girlRun);
+        tw.start();
+    }
+    
+    function girlRun() {
+        girl.animations.play('ouch');
+        boy.animations.play('oh');
+        
         var tw = game.add.tween(girl);
         tw.to({x: 1000}, 2000, Phaser.Easing.Linear.None);
         tw.onComplete.add(function () {
-            game.state.start('lifting');
+            game.state.start('running');
         }, this);
         tw.start();
-        
-        bumps.destroy();
-        sweat.destroy();
-        bees.destroy();
-        awkwardBar.destroy();
-    };
+    }
     
     this.update = function() {
-        updateHand();
-        game.physics.arcade.collide(bees, girl, null, onBeesGirlOverlap, this);
-        game.physics.arcade.collide(bees, hand, null, onBeesHandOverlap, this);
+        updateBoyHand();
     }
     
-    function onBeesGirlOverlap(girl, bee) {
-        var bump = bumps.create(bee.x - girl.x, bee.y - girl.y, 'bump');
-        bump.scale.x = 0.1;
-        bump.scale.y = 0.1;
-        bump.x *= bump.scale.x;
-        bump.y *= bump.scale.y * 0.5;
-        
-        girl.addChild(bump);
-        bee.destroy();
-        incrementAwkwardLevel(2);
-    }
-    
-    function onBeesHandOverlap(hand, bee) {
-        bee.destroy();
-    }
-    
-    function updateHand() {
-        hand.y = game.input.mousePointer.y;
+    function updateBoyHand() {
+        if (playing) {
+            boyhand.x = game.input.mousePointer.x;
+            boyhand.y = game.input.mousePointer.y;
+            sweat.x = boyhand.x;
+            sweat.y = boyhand.y;   
+        }
     }
 };

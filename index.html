@@ -3,7 +3,7 @@
     
 <head>
   <meta charset="utf-8" />
-  <title>Flappy Bird Clone</title>
+  <title>Clyde's World</title>
     <script type="text/javascript" src="phaser.min.js"></script>
     <script type="text/javascript" src="preload.js"></script>
 </head>
@@ -16,8 +16,10 @@
 	<script type="text/javascript" src="main.js"></script>
 	<script type="text/javascript" src="bees.js"></script>
 	<script type="text/javascript" src="lifting.js"></script>
-    <script type="text/javascript" src="running.js"></script>
-  <script>var screenWidth = 800;
+	<script type="text/javascript" src="running.js"></script>
+	<script type="text/javascript" src="hifive.js"></script>
+<script>
+var screenWidth = 800; 
 var screenHeight = 600;
 var game = new Phaser.Game(screenWidth, screenHeight, Phaser.AUTO, 'gameDiv');
 game.state.add("Preload", Preload);
@@ -25,6 +27,7 @@ game.state.add('main', mainState);
 game.state.add('bees', beesState);  
 game.state.add('lifting', liftingState);
 game.state.add('running', runningState);
+game.state.add('hifive', hifiveState);
 game.state.start('Preload'); 
   </script>
 </body>

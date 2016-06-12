@@ -19,7 +19,7 @@ function runningState(game) {
         pushButton.events.onInputUp.add(buttonClicked, this);
         buttonUpTween = game.add.tween(pushButton);
         buttonUpTween.to({y: 200}, 8000);
-        buttonUpTween.onComplete.add(wrapUp, this);
+        //buttonUpTween.onComplete.add(wrapUp, this);
         buttonUpTween.start();
         
         fastRunner = game.add.sprite(-100, screenHeight - 40, 'fast_runner');
