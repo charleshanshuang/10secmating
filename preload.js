@@ -13,6 +13,7 @@ function Preload(game) {
         game.load.image('bee', 'assets/visual/bee.png');
         game.load.image('bump', 'assets/visual/bump.png');  
         game.load.spritesheet('boy', 'assets/visual/boy.png', 50, 80);
+        game.load.spritesheet('fast_runner', 'assets/visual/fast_runner.png', 50, 80);
         game.load.spritesheet('girl', 'assets/visual/girl.png', 50, 80);
         game.load.spritesheet('girl_face', 'assets/visual/girl_face.png');
         game.load.spritesheet('bee', 'assets/visual/bee.png');
