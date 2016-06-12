@@ -18,7 +18,7 @@ function mainState(game) {
 
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        title = "SAY A LINE";
+        title = "DON'T JUST STAND THERE";
         
         labelTitle = this.game.add.text(screenWidth / 2, 20, title, { font: "30px Arial", fill: "#ffffff" });
         labelTitle.anchor.set(0.5);
@@ -140,6 +140,7 @@ function mainState(game) {
         tw.to({x: -200}, 2000, Phaser.Easing.Linear.None);
         tw.onComplete.add(onCompletePayoff);
         tw.start();
+        game.sound.play("groan");
     };
     
     function onCompletePayoff() {

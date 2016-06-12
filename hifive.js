@@ -132,6 +132,7 @@ function hifiveState(game) {
     function girlRun() {
         girl.animations.play('ouch');
         boy.animations.play('oh');
+        game.sound.play("groan");
         
         var tw = game.add.tween(girl);
         tw.to({x: 1000}, 2000, Phaser.Easing.Linear.None);

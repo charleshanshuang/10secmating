@@ -123,5 +123,6 @@ function liftingState(game) {
         }, this);
         barStopper.body.y = screenHeight;
         barbell.body.gravity.y = 500;
+        game.sound.play("groan");
     };
 }

@@ -107,5 +107,6 @@ function runningState(game) {
         var fallingTween = game.add.tween(boy);
         fallingTween.to({rotation: Math.PI / 2, y: boy.y + 100, x: boy.x + 200}, 500, Phaser.Easing.Quadratic.Out);
         fallingTween.start();
+        game.sound.play("groan");
     }
 }

@@ -141,6 +141,7 @@ function beesState(game) {
             awkwardBar.destroy();
         }, this);
         tw.start();
+        game.sound.play("groan");
         
         bumps.destroy();
         sweat.destroy();
