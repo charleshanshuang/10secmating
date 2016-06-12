@@ -57,7 +57,7 @@ function liftingState(game) {
         pushButton = game.add.sprite(screenWidth / 2, screenHeight / 2 + 100, 'push_button');
         pushButton.anchor.setTo(0.5, 0.5);
         pushButton.animations.add('flash', [0, 1], 4, true);
-        pushButton.play();
+        pushButton.play("flash");
         pushButton.inputEnabled = true;
         pushButton.events.onInputUp.add(function () {
                 barbell.body.velocity.y = -20;

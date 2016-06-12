@@ -106,6 +106,7 @@ function beesState(game) {
         awkwardLevel += n;
         if (awkwardLevel >= 100) {
             awkwardLevel = 100;
+            timer.stop();
             onMaxAwkwardness();
         }
         var tw = game.add.tween(awkwardBar);
@@ -123,11 +124,6 @@ function beesState(game) {
             sweat.maxParticles = 100;
             sweat.frequency = 1;
             
-        }
-        
-        if (awkwardLevel === 100) {
-            timer.stop();
-            awkwardBar.destroy();
         }
     };
     
@@ -149,6 +145,7 @@ function beesState(game) {
         bumps.destroy();
         sweat.destroy();
         bees.destroy();
+        awkwardBar.destroy();
     };
     
     this.update = function() {
