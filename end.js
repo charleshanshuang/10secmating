@@ -31,6 +31,21 @@ function endState(game) {
         this.awkwardContainer = this.game.add.sprite(200, 100, 'container');
         this.awkwardContainer.x = screenWidth / 2 - this.awkwardContainer.width / 2;
         
+        
+        instructions = this.game.add.text(screenWidth / 2, 200, "CLICK ON MR. WIGGLES TO RESTART", { font: "30px Arial", fill: "#ffffff" });
+        instructions.anchor.set(0.5);
+        instructions.stroke = "#000000";
+        instructions.strokeThickness = 6;
+        instructions.shadowColor = "#000009";
+        instructions.shadowOffsetX = 5;
+        instructions.shadowOffsetY = 5;      
+        
+        poster.inputEnabled = true;
+        poster.events.onInputUp.add(meow, this);
+    };
+    
+    function meow() {
+        game.state.start('menu');
     };
     
 };
